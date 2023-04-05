@@ -130,12 +130,9 @@ while max_errori > 0 or "-" in lettere_indovinate or errori == 8:
             print(f"Hai ancora: {max_errori} errori disponibili.\n")
         if errori != 8 and max_errori != 0:
                 stampa_impiccato(errori)
-        else:
+        if errori == 8 and max_errori == 0:
             print("Massimo Errori Raggiunto")
-            exit()
-
-            
-            
+            exit()       
     else:
         # scelta sbagliata per la parola
         max_errori -= 2
