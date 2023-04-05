@@ -1,0 +1,158 @@
+import random
+import pyfiglet
+
+# Realizzato da School Basic 
+# Social:
+# Tik Tok: school.basic
+# Instagram: school_basic
+
+
+title = pyfiglet.figlet_format("HANGMAN GAME")
+print(title)
+# Lista di parole da indovinare
+parole_da_indovinare = ['casa', 'gatto', 'albero', 'bicicletta', 'libro', 'telefono', 'tavolo', 'computer']
+
+# Funzione per selezionare casualmente una parola dalla lista
+def seleziona_parola():
+    return random.choice(parole_da_indovinare)
+
+# Variabile per il numero massimo di errori consentiti
+max_errori = 8
+errori = 0
+# Seleziona una parola dalla lista
+parola_da_indovinare = seleziona_parola()
+
+# Lista di lettere indovinate
+lettere_indovinate = ["-"] * len(parola_da_indovinare)
+
+def stampa_impiccato(errori):
+    impiccato = [
+        """
+            +---+
+            |   |
+                |
+                |
+                |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+                |
+                |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+            |   |
+                |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+           /|   |
+                |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+           /|\  |
+                |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+           /|\  |
+            |   |
+                |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+           /|\  |
+            |   |
+           /    |
+          =========
+        """,
+        """
+            +---+
+            |   |
+            O   |
+           /|\  |
+            |   |
+           / \  |
+          =========
+        """
+    ]
+    print(impiccato[errori-1])
+
+# Ciclo di gioco
+while max_errori > 0 or "-" in lettere_indovinate or errori == 8:
+    print("".join(lettere_indovinate))
+    scelta = input("Inserisci una lettera o tenta di indovinare l'intera parola: ").lower()
+    if not scelta.isalpha() or len(scelta) > len(parola_da_indovinare):
+        print("L'input deve essere una singola lettera o una parola con lunghezza massima pari alla lunghezza della parola da indovinare!")
+        continue
+    if scelta == parola_da_indovinare:
+        # indovinata la parola
+        lettere_indovinate = list(parola_da_indovinare)
+    elif len(scelta) == 1:
+        # indovinata una lettera
+        if scelta in parola_da_indovinare:
+            # controllo se la lettera è già stata indovinata in precedenza
+            if scelta not in lettere_indovinate:
+                # se la lettera è presente nella parola e non è stata indovinata in precedenza, la inserisco
+                for i in range(len(parola_da_indovinare)):
+                    if parola_da_indovinare[i] == scelta:
+                        lettere_indovinate[i] = scelta
+            else:
+                print("Questa lettera è già stata indovinata in precedenza!")
+        else:
+            print("Lettera non presente")
+            max_errori -= 1
+            errori +=1
+            print(f"Hai ancora: {max_errori} errori disponibili.\n")
+            
+
+            if input("Vuoi un suggerimento(Si/No). Costa Un Errore Però: ").lower:
+                print(f"Prova con la lettera '{random.choice(parola_da_indovinare)}'")
+                errori += 1  # il suggerimento costa un errore
+            
+            else:
+                print("Massimo Errori Raggiunto")
+                exit()
+
+            if errori != 8 and max_errori != 0:
+                stampa_impiccato(errori)
+            
+    else:
+        # scelta sbagliata per la parola
+        max_errori -= 2
+        errori += 2
+        print(f"La parola scelta non è corretta! Hai ancora: {max_errori} errori disponibili.\n")
+        if errori != 8 and max_errori != 0:
+            stampa_impiccato(errori)
+        else:
+            print("Massimo Errori Raggiunto")
+            exit()
+
+    if not "-" in lettere_indovinate:
+        print("Parola indovinata!")
+        print("La parola è: " + parola_da_indovinare)
+        exit()
